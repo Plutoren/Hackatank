@@ -3,9 +3,11 @@ package player;
 import network.Connection;
 import network.ConnectionDelegate;
 
-public class Player implements ConnectionDelegate{
+public abstract class Player implements ConnectionDelegate
+{
 	
-	/* this class is an abstract class describing a single player
+	/* 
+	 * this class is an abstract class describing a single player
 	 * which can be extended into more specific roles (host and client)
 	 */
 

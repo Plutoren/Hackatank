@@ -9,7 +9,8 @@ import java.net.Socket;
 public class Connection implements Runnable 
 {
 
-	/* this class describes a network connection between different players.
+	/* 
+	 * this class describes a network connection between different players.
 	 * How this connection is handled is up to whichever player owns it
 	 * 
 	 * (non-Javadoc)
@@ -23,10 +24,12 @@ public class Connection implements Runnable
 	/* objects for reading and writing from/to the socket.*/
 	private PrintWriter writer;
 	private BufferedReader reader;
-	/* flags that the connection is alive and healthy */
-	boolean alive;
 	/* the connection's delegate object */
 	private ConnectionDelegate connectionDelegate;
+
+	/* flags that the connection is alive and healthy */
+	boolean alive;
+
 	
 	/* constructor.  connectionDelegate is the delegate and the socket must
 	 * be fully configured before being passed in
