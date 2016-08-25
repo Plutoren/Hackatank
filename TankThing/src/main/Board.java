@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,9 +21,9 @@ public class Board extends JPanel implements ActionListener {
     private Timer timer;
     private Movement Craft;
     private final int DELAY = 10;
+	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
     public Board() {
-
         initBoard();
     }
     
@@ -33,7 +34,6 @@ public class Board extends JPanel implements ActionListener {
         setBackground(Color.WHITE);
 //
         Craft = new Movement();
-
         timer = new Timer(DELAY, this);
         timer.start();      
         
@@ -77,12 +77,18 @@ public class Board extends JPanel implements ActionListener {
         
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(Craft.getImage(), (int)Craft.getX(), (int)Craft.getY(), this);        
+        for(Bullet b:this.bullets){
+        	g2d.drawImage(b.getImage(), (int)b.getX(), (int)b.getY(), this);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
         Craft.move();
+        for(Bullet b:this.bullets){
+        	b.move();
+        }
         repaint();  
     }
 

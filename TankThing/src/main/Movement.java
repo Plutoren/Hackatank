@@ -17,6 +17,7 @@ public class Movement extends Rectangle{
     private double bottomMax = 427;
     private int imageWidth = 41;
     private int imageHeight = 47;
+    private boolean left, right, up, down;
     private Image image;
 
     public Movement() {
@@ -72,24 +73,49 @@ public class Movement extends Rectangle{
 
         
         if (key == KeyEvent.VK_SPACE) {
-            //fire!
+        	if(left&&up){
+            	Board.bullets.add(new Bullet(7, (int)x, (int)y)); 
+        	}
+        	else if(up&&right){
+             	Board.bullets.add(new Bullet(1, (int)x, (int)y)); 
+            }
+        	else if(right&&down){
+             	Board.bullets.add(new Bullet(3, (int)x, (int)y));
+            }
+        	else if(down&&left){
+              	Board.bullets.add(new Bullet(5, (int)x, (int)y)); 
+            }
+        	else if(up){
+            	Board.bullets.add(new Bullet(0, (int)x, (int)y)); 
+        	}
+            else if(right){
+            	Board.bullets.add(new Bullet(2, (int)x, (int)y)); 
+            }
+            else if(down){
+            	Board.bullets.add(new Bullet(4, (int)x, (int)y)); 
+            }           
+            else if(left){
+            	Board.bullets.add(new Bullet(6, (int)x, (int)y));
+        	}        	
         }
         
         if (key == KeyEvent.VK_LEFT) {
+        	left = true;
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			x += 2;
+        			dx = 1;
         		}
-        		else{
+          	else{
         		 	dx = -1;
         		}
         	}
         }
 
         if (key == KeyEvent.VK_RIGHT) {
+        	right = true;
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dx = -2;
+        			dx = -1;
         		}
         		else{
         		 	dx = 1;
@@ -98,9 +124,10 @@ public class Movement extends Rectangle{
         }
 
         if (key == KeyEvent.VK_UP) {
+        	up = true;
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dy = 2;
+        			dy = 1;
         		}
         		else{
         		 	dy = -1;
@@ -108,9 +135,10 @@ public class Movement extends Rectangle{
         	}
         }
         if (key == KeyEvent.VK_DOWN) {
+        	down = true;
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dy = -2;
+        			dy = -1;
         		}
         		else{
         		 	dy = 1;
@@ -124,19 +152,23 @@ public class Movement extends Rectangle{
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
+        	left = false;
             dx = 0;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
+        	right = false;
             dx = 0;
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = 0;
+            up = false;
+        	dy = 0;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 0;
+            down = false;
+        	dy = 0;
         }
     }
 }
