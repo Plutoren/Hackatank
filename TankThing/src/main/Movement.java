@@ -31,8 +31,6 @@ public class Movement extends Rectangle{
         y = 50;    
     }
  
-
-
     public void move() {
     	this.setBounds((int)x, (int)y, imageWidth, imageHeight);
     	if (x < rightMax && x > leftMax) {

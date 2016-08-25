@@ -9,8 +9,7 @@ public interface ConnectionDelegate
 	 */
 
 	/* called whenever the connection receives data from the other end */
-	void connectionReceivedData(Connection connection, String data);
-
+	void connectionReceivedData(Connection connection, String command, String[] arguments);
 	/* called whenever the connection is closed */
 	void connectionWasKilled(Connection connection);
 }
