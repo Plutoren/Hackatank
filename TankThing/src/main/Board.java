@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener {
 
     private Timer timer;
     private Movement Craft;
-    private final int DELAY = 1;
+    private final int DELAY = 10;
 
     public Board() {
 

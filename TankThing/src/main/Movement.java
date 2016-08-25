@@ -80,10 +80,10 @@ public class Movement extends Rectangle{
         if (key == KeyEvent.VK_LEFT) {
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dx = 0.4;
+        			x += 2;
         		}
         		else{
-        		 	dx = -0.2;
+        		 	dx = -1;
         		}
         	}
         }
@@ -91,10 +91,10 @@ public class Movement extends Rectangle{
         if (key == KeyEvent.VK_RIGHT) {
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dx = -0.4;
+        			dx = -2;
         		}
         		else{
-        		 	dx = 0.2;
+        		 	dx = 1;
         		}
         	}
         }
@@ -102,20 +102,20 @@ public class Movement extends Rectangle{
         if (key == KeyEvent.VK_UP) {
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dy = 0.4;
+        			dy = 2;
         		}
         		else{
-        		 	dy = -0.2;
+        		 	dy = -1;
         		}
         	}
         }
         if (key == KeyEvent.VK_DOWN) {
         	for(Obstacle obs : Main.obs){
         		if(this.intersects(obs)){
-        			dy = -0.4;
+        			dy = -2;
         		}
         		else{
-        		 	dy = 0.2;
+        		 	dy = 1;
         		}
         	}
         }
