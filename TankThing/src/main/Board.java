@@ -55,7 +55,7 @@ public class Board extends JPanel implements ActionListener {
 		g.setColor(Color.gray);
 		TxtToMap ttm = null;
 		try {
-			ttm = new TxtToMap("D:\\testmap.txt");
+			ttm = new TxtToMap("testmap.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
