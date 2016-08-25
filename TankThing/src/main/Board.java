@@ -13,36 +13,36 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import network.ClientDelegate;
+
 
 @SuppressWarnings("serial")
-public class Board extends JPanel implements ActionListener {
+public class Board extends JPanel implements ActionListener, ClientDelegate {
+
+	private final int DELAY = 1;
 
     private Timer timer;
-    private Movement Craft;
-    private final int DELAY = 1;
+    private Movement[] tanks;
+    private Movement localTank;
 
-    public Board() {
-
-        initBoard();
+    public Board(int tankCount, int localIndex) {
+    	this.tanks = new Movement[tankCount];
+    	for (int i = 0; i < tanks.length; i++)
+		{
+			this.tanks[i] = new Movement();
+		}
+    	this.localTank = this.tanks[localIndex];
+    	initBoard();
     }
     
     private void initBoard() {
-        
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.WHITE);
-//
-        Craft = new Movement();
 
         timer = new Timer(DELAY, this);
         timer.start();      
-        
-       
-        
-        
-        
     }
-
 
     @Override
     public void paintComponent(Graphics g) {
@@ -57,7 +57,6 @@ public class Board extends JPanel implements ActionListener {
 		try {
 			ttm = new TxtToMap("testmap.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Obstacle temp = null;
@@ -74,15 +73,16 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void doDrawing(Graphics g) {
-        
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(Craft.getImage(), (int)Craft.getX(), (int)Craft.getY(), this);        
+        for (Movement tank : tanks)
+		{
+            g2d.drawImage(tank.getImage(), (int)tank.getX(), (int)tank.getY(), this);        			
+		}
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        Craft.move();
+        this.localTank.move();
         repaint();  
     }
 
@@ -90,12 +90,21 @@ public class Board extends JPanel implements ActionListener {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            Craft.keyReleased(e);
+            localTank.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            Craft.keyPressed(e);
+            localTank.keyPressed(e);
         }
     }
+
+    /* game client starting up */
+    
+	@Override
+	public void tankMoved(String data, int index)
+	{
+		this.tanks[index].readString(data);
+	}
+	
 }

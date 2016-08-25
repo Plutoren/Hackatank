@@ -23,7 +23,7 @@ public class Main extends JFrame {
     public static ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
     private void initUI() {
         
-        add(new Board());
+        add(new Board(2, 0));
         
         setSize(700, 500);
         setResizable(false);
@@ -80,29 +80,9 @@ public class Main extends JFrame {
 
        // add(gamePanel, BorderLayout.WEST);
         add(infoPanel, BorderLayout.EAST);
-        
-        
-        
-        
-        
-        
     }
-    
-    
-//    private void startGame(){
-//        add(new Board());
-//        
-//        setSize(700, 500);
-//        setResizable(false);
-//        setFocusable(false);
-//        
-//        setTitle("TankThing");
-//        setLocationRelativeTo(null);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    }
 
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) {   
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
