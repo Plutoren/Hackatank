@@ -7,6 +7,10 @@ import javax.swing.ImageIcon;
 
 public class Movement extends Rectangle{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
     private double dx;
     private double dy;
     private double x;
@@ -21,7 +25,6 @@ public class Movement extends Rectangle{
     private Image image;
 
     public Movement() {
-        
         initCraft();
     }
     
@@ -32,35 +35,64 @@ public class Movement extends Rectangle{
         y = 50;    
     }
  
+
+    /* synchronized to avoid clusterfucks */
+
     public void move() {
-    	this.setBounds((int)x, (int)y, imageWidth, imageHeight);
-    	if (x < rightMax && x > leftMax) {
-    		  x += dx;
-    		}
-    	else if (x >= rightMax) {
-    		x = rightMax - 1;
-    		}
-    	else {
-    	x = leftMax + 1;
-    		}
-    	if (y > topMax && y < bottomMax) {
-    			y += dy;
-    		}
-    	else if (y >= bottomMax) {
-    		y = bottomMax - 1;
-    		}
-    	else {
-  		y = topMax + 1;
-    	}
-    	
+    	synchronized (this)
+		{
+	    	this.setBounds((int)x, (int)y, imageWidth, imageHeight);
+	    	if (x < rightMax && x > leftMax) {
+	    		  x += dx;
+	    		}
+	    	else if (x >= rightMax) {
+	    		x = rightMax - 1;
+	    		}
+	    	else {
+	    	x = leftMax + 1;
+	    		}
+	    	if (y > topMax && y < bottomMax) {
+	    			y += dy;
+	    		}
+	    	else if (y >= bottomMax) {
+	    		y = bottomMax - 1;
+	    		}
+	    	else {
+	  		y = topMax + 1;
+	    	}
+		}
+    }
+    
+    public void setX(int x){
+    	synchronized (this)
+		{
+        	this.x = x;			
+		}
+    }
+    
+    public void setY(int y){
+    	synchronized (this)
+		{
+    		this.y = y;
+		}
     }
 
     public double getX() {
-        return x;
+    	double x;
+    	synchronized (this)
+		{
+			x = this.x;
+		}    	
+    	return x;
     }
 
     public double getY() {
-        return y;
+    	double y;
+    	synchronized (this)
+		{
+    		y = this.y;
+		}
+    	return y;
     }
 
     public Image getImage() {
@@ -171,4 +203,17 @@ public class Movement extends Rectangle{
         	dy = 0;
         }
     }
+    
+    public String toString()
+    {
+    	return this.x + "," + this.y;
+    }
+
+    public void readString(String values)
+    {
+    	String[] attributes = values.split(",");
+    	this.setX(Integer.parseInt(attributes[1]));
+    	this.setY(Integer.parseInt(attributes[2]));
+    }
+    
 }

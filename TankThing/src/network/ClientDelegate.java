@@ -8,4 +8,6 @@ public interface ClientDelegate
 	 * of moved tanks, etc
 	 */
 	
+	/* notifies that the tank at the given index moved */
+	public void tankMoved(String data, int index);	
 }
