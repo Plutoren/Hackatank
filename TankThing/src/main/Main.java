@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,10 +17,10 @@ import javax.swing.JTextField;
 public class Main extends JFrame {
 
     public Main() {
-        
+       
         initUI();
     }
-    
+    public static ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
     private void initUI() {
         
         add(new Board());

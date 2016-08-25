@@ -8,8 +8,8 @@ import java.util.Scanner;
 import java.util.Stack;
 /*read text file line by line
 text should be in the following syntax:
-oval/rect xPos yPos width height (space)-------the line must end with a space
-other shapes? that's a lot of workload
+rect xPos yPos width height (space)-------the line must end with a space
+other shapes? that's a lot of workload and 
 */
 public class TxtToMap {
 	String str = "";
@@ -19,11 +19,11 @@ public class TxtToMap {
 	public TxtToMap(String location) throws IOException{
 		BufferedReader br = new BufferedReader(new FileReader(location));
 		while((str = br.readLine())!=null){
-			if(str.substring(0,4).equals("oval")){
+			/*if(str.substring(0,4).equals("oval")){
 				str = str.substring(5);
 				getNumber(str, 0);
 				obs.push(new Obstacle("oval", numbers[0], numbers[1], numbers[2], numbers[3]));
-			}
+			}*/
 			if(str.substring(0,4).equals("rect")){
 				str = str.substring(5);
 				getNumber(str, 0);

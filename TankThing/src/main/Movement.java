@@ -1,19 +1,22 @@
 package main;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class Movement {
+public class Movement extends Rectangle{
 
-    private int dx;
-    private int dy;
-    private int x;
-    private int y;
-    private int rightMax = 555;
-    private int leftMax = -2;
-    private int topMax = -2;
-    private int bottomMax = 427;
+    private double dx;
+    private double dy;
+    private double x;
+    private double y;
+    private double rightMax = 555;
+    private double leftMax = -2;
+    private double topMax = -2;
+    private double bottomMax = 427;
+    private int imageWidth = 41;
+    private int imageHeight = 47;
     private Image image;
 
     public Movement() {
@@ -22,47 +25,42 @@ public class Movement {
     }
     
     private void initCraft() {
-        
         ImageIcon ii = new ImageIcon("tankSpriteGreen.png");
         image = ii.getImage();
-        
         x = 480;
-        y = 50;        
+        y = 50;    
     }
  
 
 
     public void move() {
-    	
+    	this.setBounds((int)x, (int)y, imageWidth, imageHeight);
     	if (x < rightMax && x > leftMax) {
     		  x += dx;
-    	}
-    	
+    		}
     	else if (x >= rightMax) {
     		x = rightMax - 1;
-    	}
+    		}
     	else {
-    		x = leftMax + 1;
-    	}
-      
+    	x = leftMax + 1;
+    		}
     	if (y > topMax && y < bottomMax) {
-  		  y += dy;
-  	}
-  	
-  	else if (y >= bottomMax) {
-  		y = bottomMax - 1;
-  	}
-  	else {
+    			y += dy;
+    		}
+    	else if (y >= bottomMax) {
+    		y = bottomMax - 1;
+    		}
+    	else {
   		y = topMax + 1;
-  	}
-       
+    	}
+    	
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -71,32 +69,55 @@ public class Movement {
     }
 
     public void keyPressed(KeyEvent e) {
-
+    	
         int key = e.getKeyCode();
 
         
         if (key == KeyEvent.VK_SPACE) {
-            
+            //fire!
         }
         
         if (key == KeyEvent.VK_LEFT) {
-        	
-        	   dx = -1;
-        	
-        	
-        	 
+        	for(Obstacle obs : Main.obs){
+        		if(this.intersects(obs)){
+        			dx = 0.4;
+        		}
+        		else{
+        		 	dx = -0.2;
+        		}
+        	}
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 1;
+        	for(Obstacle obs : Main.obs){
+        		if(this.intersects(obs)){
+        			dx = -0.4;
+        		}
+        		else{
+        		 	dx = 0.2;
+        		}
+        	}
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = -1;
+        	for(Obstacle obs : Main.obs){
+        		if(this.intersects(obs)){
+        			dy = 0.4;
+        		}
+        		else{
+        		 	dy = -0.2;
+        		}
+        	}
         }
-
         if (key == KeyEvent.VK_DOWN) {
-            dy = 1;
+        	for(Obstacle obs : Main.obs){
+        		if(this.intersects(obs)){
+        			dy = -0.4;
+        		}
+        		else{
+        		 	dy = 0.2;
+        		}
+        	}
         }
     }
 

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -18,7 +19,7 @@ public class Board extends JPanel implements ActionListener {
 
     private Timer timer;
     private Movement Craft;
-    private final int DELAY = 10;
+    private final int DELAY = 1;
 
     public Board() {
 
@@ -46,16 +47,36 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         doDrawing(g);
 
         Toolkit.getDefaultToolkit().sync();
+        //super.paintComponent(g);
+		g.setColor(Color.gray);
+		TxtToMap ttm = null;
+		try {
+			ttm = new TxtToMap("D:\\testmap.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Obstacle temp = null;
+		while(!ttm.obs.isEmpty()){
+			temp = ttm.obs.pop();
+			Main.obs.add(temp);
+			if(temp.getType().equals("rect")){
+				g.fillRect((int)temp.getX(), (int)temp.getY(), temp.getW(), temp.getH());
+			}
+			if(temp.getType().equals("oval")){
+				g.fillOval((int)temp.getX(), (int)temp.getY(), temp.getW(), temp.getH());
+			}
+		}
     }
 
     private void doDrawing(Graphics g) {
         
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(Craft.getImage(), Craft.getX(), Craft.getY(), this);        
+        g2d.drawImage(Craft.getImage(), (int)Craft.getX(), (int)Craft.getY(), this);        
     }
 
     @Override
