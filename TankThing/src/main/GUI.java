@@ -14,9 +14,7 @@ public class GUI extends JPanel {
 	    public GUI() {	
 	    	
 	    	JTextField textField;
-	        JPanel gamePanel = new JPanel();
-	        gamePanel.setBackground(Color.GRAY);
-	        gamePanel.setPreferredSize(new Dimension(300, 400));
+	        GamePanel gamePanel = new GamePanel();
 
 	        JPanel infoPanel = new JPanel();
 	        infoPanel.setBackground(Color.BLACK);
