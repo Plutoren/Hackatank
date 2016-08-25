@@ -3,7 +3,8 @@ package network;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+
+import main.Movement;
 
 public class Client implements ConnectionDelegate
 {
@@ -32,16 +33,27 @@ public class Client implements ConnectionDelegate
 		this.connection.listenForData(this);
 	}
 	
-	public void notifyGameStateChange()
+	public void sendTank(Movement tank, int index) throws IOException
 	{
-		/* this isn't really defined right now but it will be */
+		this.connection.sendData(NetworkCommands.UPDATEGAME, new String[] {Integer.toString(index), tank.toString()});
 	}
 	
 	/* ConnectionDelegate methods */
 	@Override
 	public void connectionReceivedData(Connection connection, String command, String[] arguments)
 	{
-		System.out.println("received command" + command);
+		switch (command)
+		{
+		case NetworkCommands.UPDATEGAME:
+			this.clientDelegate.tankMoved(arguments[1], Integer.parseInt(arguments[0]));
+			break;
+		case NetworkCommands.STARTGAME:
+			this.clientDelegate.gameStarted(Integer.parseInt(arguments[0]), Integer.parseInt(arguments[1]));
+			break;
+		default:
+			break;
+		}
+
 		/* commands are formatted like this: command$argument#argument#argument */
 	}
 

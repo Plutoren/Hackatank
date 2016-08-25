@@ -88,7 +88,6 @@ public class Connection implements Runnable
 	public void sendData(String data) throws IOException
 	{
 		this.writer.println(data);
-		System.out.println("Sent Data");
 	}
 	
 	/* this function sends data in the proper format */
@@ -152,7 +151,6 @@ public class Connection implements Runnable
 			try 
 			{
 				receivedData = this.reader.readLine();
-				System.out.println("received data: " + receivedData);
 				String[] components = new String[] {receivedData};
 				String command;
 				String[] arguments = components;
@@ -169,8 +167,6 @@ public class Connection implements Runnable
 				}
 				
 				command = components[0];
-				
-				System.out.println("command:"+command+" arguments:"+arguments[0]);
 
 				this.connectionDelegate.connectionReceivedData(this, command, arguments);				
 			} 

@@ -10,4 +10,6 @@ public interface ClientDelegate
 	
 	/* notifies that the tank at the given index moved */
 	public void tankMoved(String data, int index);	
+	
+	public void gameStarted(int tankTotal, int localTank);
 }

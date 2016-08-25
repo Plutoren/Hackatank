@@ -12,28 +12,41 @@ public class GameConnectionManager implements ConnectionDelegate
 	 * @see network.ConnectionDelegate#connectionReceivedData(network.Connection, java.lang.String)
 	 */
 	
-	/* this is the delegate */
-	private GameConnectionManagerDelegate gameConnectionManagerDelegate;
 	/* these are the connections to the players of the game */
 	private Connection[] connections;
 	
-	public GameConnectionManager(GameConnectionManagerDelegate gameConnectionManagerDelegate, Connection[] connections) throws IOException {
-		this.gameConnectionManagerDelegate = gameConnectionManagerDelegate;
+	public GameConnectionManager(Connection[] connections) throws IOException {
 		this.connections = connections;
 	}
 	
 	public void connectClients() throws IOException
 	{
-		for (Connection connection : connections)
+		for (int i = 0; i < connections.length; i++)
 		{
-			connection.listenForData(this);
-			connection.sendData(NetworkCommands.STARTGAME, null);
+			connections[i].listenForData(this);
+			connections[i].sendData(NetworkCommands.STARTGAME, new String[] {
+				Integer.toString(connections.length), 
+				Integer.toString(i)
+			});
 		}
 	}
 	
 	@Override
 	public void connectionReceivedData(Connection connection, String command, String[] arguments) {
-		
+		for (int i = 0; i < connections.length; i++)
+		{
+			if (connections[i] != connection)
+			{			
+				try
+				{
+					connections[i].sendData(command, arguments);
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override

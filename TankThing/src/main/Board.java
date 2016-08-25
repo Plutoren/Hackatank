@@ -13,19 +13,28 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import network.ClientDelegate;
+import network.Client;
 
 
 @SuppressWarnings("serial")
-public class Board extends JPanel implements ActionListener, ClientDelegate {
+public class Board extends JPanel implements ActionListener {
 
 	private final int DELAY = 1;
 
     private Timer timer;
     private Movement[] tanks;
     private Movement localTank;
-
-    public Board(int tankCount, int localIndex) {
+    private Client gameClient;
+    private int localIndex;
+    
+    public Board()
+    {
+    	this(1, 0, null);
+    }
+    
+    public Board(int tankCount, int localIndex, Client gameClient) {
+    	this.localIndex = localIndex;
+    	this.gameClient = gameClient;
     	this.tanks = new Movement[tankCount];
     	for (int i = 0; i < tanks.length; i++)
 		{
@@ -33,6 +42,19 @@ public class Board extends JPanel implements ActionListener, ClientDelegate {
 		}
     	this.localTank = this.tanks[localIndex];
     	initBoard();
+    }
+    
+    public void initBoard(int tankCount, int localIndex, Client gameClient)
+    {
+    	System.out.println("tankCount = " + tankCount + " : localIndex = " + localIndex);
+    	this.localIndex = localIndex;
+    	this.gameClient = gameClient;
+    	this.tanks = new Movement[tankCount];
+    	for (int i = 0; i < tanks.length; i++)
+		{
+			this.tanks[i] = new Movement();
+		}
+    	this.localTank = this.tanks[localIndex];    	
     }
     
     private void initBoard() {
@@ -83,6 +105,16 @@ public class Board extends JPanel implements ActionListener, ClientDelegate {
     @Override
     public void actionPerformed(ActionEvent e) {
         this.localTank.move();
+        if (this.gameClient != null)
+        {
+        	try
+			{
+				this.gameClient.sendTank(this.localTank, this.localIndex);
+			} catch (IOException x)
+			{
+				x.printStackTrace();
+			}
+        }
         repaint();  
     }
 
@@ -98,13 +130,11 @@ public class Board extends JPanel implements ActionListener, ClientDelegate {
             localTank.keyPressed(e);
         }
     }
-
-    /* game client starting up */
     
-	@Override
-	public void tankMoved(String data, int index)
-	{
-		this.tanks[index].readString(data);
-	}
+    public void tankMoved(String data, int index)
+    {
+    	System.out.println("Tank Moved: " + data);
+		this.tanks[index].readString(data);	
+    }
 	
 }

@@ -81,7 +81,7 @@ public class Host implements Runnable
 		}
 		
 		/* incomplete.  Start game */
-		this.gameConnectionManager = new GameConnectionManager(null, connections);
+		this.gameConnectionManager = new GameConnectionManager(connections);
 		this.gameConnectionManager.connectClients();
 	}
 	
@@ -107,13 +107,6 @@ public class Host implements Runnable
 			{
 				acceptedConnection = this.acceptConnection();
 				this.connectionBuffer.add(acceptedConnection);
-				
-				/* TEMPORARY */
-				if (this.connectionBuffer.size() >= 3)
-				{
-					System.out.println("Starting game");
-					this.startGame();
-				}
 			}
 			catch (IOException e)
 			{
